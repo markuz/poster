@@ -69,7 +69,7 @@ class Message(object):
         self.image_list = []
         for part in self.message.walk():
             type = part.get_content_type()
-            if type.startswith("text/"):
+            if type.startswith("text/plain"):
                 self.text_list.append(part.get_payload(decode=True))
             elif type.startswith("image/"):
                 filename = part.get_filename()
