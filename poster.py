@@ -64,7 +64,7 @@ class poster(object):
         if imagelist:
             image = imagelist[0]
             maxwidth = min(800, image.width)
-            post_txt += ('<center><img src="%s/data/%s" '
+            post_txt += ('<center><img src="%s/data/phoo/%s" '
                        'alt="%s" width = %d /></center>\n\n'%(SITE_URL,
                                     '/'.join((image.partial_path,image.name)),
                                                         image.title,
@@ -76,7 +76,7 @@ class poster(object):
         #Add aditional images:
         if imagelist and len(imagelist) > 1:
             for image in imagelist[1:]:
-                post_txt += "<img src='%s/data/%s' alt='%s' />"%(SITE_URL,
+                post_txt += "<img src='%s/data/phoo/%s' alt='%s' />"%(SITE_URL,
                          '/'.join((image.partial_path,'thumb',image.name)),
                                                          image.title)
                 
