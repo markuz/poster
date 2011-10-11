@@ -66,7 +66,7 @@ class poster(object):
             maxwidth = min(800, image.width)
             post_txt += ('<center><img src="%s/%s" '
                        'alt="%s" width = %d /></center>\n\n'%(SITE_URL,
-                                    os.paht.join(image.fullpath,image.name),
+                                    os.paht.join(image.partial_path,image.name),
                                                         image.title,
                                                         maxwidth))
         #Process_text.
@@ -77,7 +77,7 @@ class poster(object):
         if imagelist and len(imagelist) > 1:
             for image in imagelist[1:]:
                 post_txt += "<img src='%s/%s' alt='%s' />"%(SITE_URL,
-                         os.path.join(image.thumbpath,image.name),
+                         os.path.join(image.partial_path,'thumb',image.name),
                                                          image.title)
                 
         blog = Blog()
