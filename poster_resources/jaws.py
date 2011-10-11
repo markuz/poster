@@ -23,16 +23,116 @@
 # @copyright 2011 Marco Antonio Islas Cruz
 # @license   http://www.gnu.org/licenses/gpl.txt
 
+import os
 import MySQLdb
-
+import datetime
 from poster_resources.settings import database, phoo_path
 from poster_resources.database import connect_to_database
+from PIL import Image
 
 
 THUMBNAIL_SIZE = 100,100
 MEDIUM_SIZE = 300,300
 
-class Phoo(object):
+class JawsImage(object):
+    '''
+    This class represents a Jaws Phoo Image.
+    '''
+    def __init__(self, name, data):
+        '''
+        Constructor
+        @params name: Name of the file to be saved
+        @params data: string with the data.
+        '''
+        self.data = data
+        self.name = name
+        self.user_id = 1
+        self.title = ''
+        self.description = ''
+    
+    def save(self):
+        '''
+        Save the image in the file system and add it to the database
+        '''
+        user_id = self.user_id
+        self.create_images()
+        fname = os.path.join(self.fullpath, self.name)
+        database = connect_to_database()
+        cursor = database.cursor()
+        if os.path.exists(fname):
+            #File exists. we don't need to save it anymore.
+            cursor.execute("SELECT id FROM phoo_image WHERE "
+                         "filename = %s",(self.name,))
+            result = cursor.fetchone()
+            if result:
+                return 
+        #Save the object in database.
+        if not self.title:
+            self.title = ".".join(self.name.split('.')[:-1])
+        cursor.execute("INSERT INTO phoo_image (user_id, filename, title, "
+                     "description) VALUES (%s,%s,%s,%s)",
+                     (self.user_id, os.path.join(self.partial_path, self.name), 
+                      self.title, self.description))
+        database.commit()
+        cursor.execute("SELECT LAST_INSERT_ID()")
+        image_id = cursor.fetchone()[0]
+        cursor.execute("INSERT INTO phoo_image_album (phoo_image_id,"
+                     "phoo_album_id) VALUES (%s,%s)",(image_id, 1))
+        database.commit()
+        cursor.close()
+        database.close()
+   
+    def create_images(self):
+        #Get the year, month and day to create the directory where the picture
+        #is going to be store
+        data = self.data 
+        filename = self.name 
+        title = self.title 
+        description = self.description
+        now = datetime.datetime.now()
+        directory = "%d_%d_%d"%(now.year, now.month, now.day)
+        self.partial_path = directory
+        self.fullpath = os.path.join(phoo_path, directory)
+        self.thumbpath = os.path.join(phoo_path, directory, 'thumb')
+        self.mediumpath = os.path.join(phoo_path, directory, 'medium')
+        for path in (self.fullpath, self.thumbpath, self.mediumpath):
+             if not os.path.exists(path):
+                 os.makedirs(path)
+        #We save the normal image, no modifications need to be made
+        fname = os.path.join(self.fullpath, filename)
+        fobj = open(fname, 'wb')
+        fobj.write(data)
+        fobj.close()
+        image = Image.open(fname)
+        self.width, self.height = image.size
+        #Saving medium image and thumbnail
+        thumb = os.path.join(self.thumbpath, filename)
+        medium = os.path.join(self.mediumpath, filename)
+        for cname, sizes in ((thumb, THUMBNAIL_SIZE), (medium, MEDIUM_SIZE)):
+            image = Image.open(fname)
+            image.thumbnail(sizes)
+            image.save(cname)
+
+
+class JawsBase (object):
+    def get_user_id(self,sender):
+        '''
+        Return the user id of the email address, or 1 if no one is found
+        @param sender:
+        '''
+        database = connect_to_database()
+        cursor = database.cursor()
+        start = sender.find("<") or 0
+        end = sender.find(">") or (len(sender) -1 )
+        sender = sender[start + 1 :end]
+        cursor.execute('SELECT id FROM users WHERE email = %s',(sender, ))
+        result = cursor.fetchone()
+        if not result:
+            return 1
+        return int(result[0])
+        
+
+class Phoo(JawsBase):
     '''
     This class allows the interaction with the Phoo gadget
     '''
@@ -40,72 +140,26 @@ class Phoo(object):
         '''
         Constructor
         '''
-        pass
+        JawsBase.__init__(self)
     
-    def add_image(self, data, user_id, filename, title='', description=''):
+    def add_image(self, data, sender, filename, title='', description=''):
         '''
         Create a file from data (data must be what the image is in text, 
         as if it were read in binary mode), using filename, title and 
         description
-        @param user_id: 
-        @param filename:
-        @param title:
-        @param description:
-        @param data:
-        '''
-        self.create_images(filename, data)
-        fname = os.path.join(fullpath, filename)
-        database = connect_to_database()
-        cursor = databse.cursor()
-        if os.path.exists(fname):
-            #File exists. we don't need to save it anymore.
-            cursor.execute("SELECT image_id FROM phoo_image WHERE "
-                         "filename = %s",(filename,))
-            result = cursor.fetchone()
-            if result:
-                return result[0],filename
-        #Save the object in database.
-        if not title:
-            title = ".".join(filename.split('.')[:-1])
-        cursor.execute("INSERT INTO phoo_image (user_id, filename, title, "
-                     "description VALUES (%s,%s,%s,%s)",
-                     (user_id, filename, title or filename, description))
-        cursor.commit()
-        image_id = cursor.execute("SELECT LAST_INSERT_ID()")
-        cursor.execute("INSERT INTO phoo_image_album (phoo_image_id"
-                     "phoo_album_id) VALUES (%s,%s)",(image_id, 1))
-        cursor.commit()
-        cursor.close()
-        database.close()
-        return image_id, filename
-    
-    def create_images(self, filename, data):
-        #Get the year, month and day to create the directory where the picture
-        #is going to be store
-        now = datetime.datetime.now()
-        directory = "%d_%d_%d"%(now.year, now.month, now.day)
-        fullpath = os.path.join(phoo_path, directory)
-        thumbpath = os.path.join(phoo_path, directory, 'thumb')
-        mediumpath = os.path.join(phoo_path, directory, 'medium')
-        for path in (fullpath, thumbpath, mediumpath):
-             if not os.path.exists(path):
-                 os.makedirs(path)
-        #We save the normal image, no modifications need to be made
-        fname = os.path.join(fullpath, filename)
-        fobj = open(fname, 'wb')
-        fobj.write(data)
-        fobj.close()
-        #Saving medium image and thumbnail
-        thumb = os.path.join(thumbpath, filename)
-        medium = os.path.join(mediumpath, filename)
-        for cname, sizes in ((thumb, THUMBNAIL_SIZE, medium, MEDIUM_SIZE)):
-            image = Image.open(fname)
-            image.thumbnail(sizes)
-            image.save(cname)
-            
         
-
-class Blog(object):
+        returns JawsImage Object
+        '''
+        #Create a new JawsImage object
+        object = JawsImage(filename, data)
+        object.title = title
+        object.description = description
+        object.user_id = self.get_user_id(sender)
+        object.save()
+        object.create_images()
+        return object
+        
+class Blog(JawsBase):
     '''
     This class allows the interaction with the Blog gadget
     '''
@@ -113,7 +167,7 @@ class Blog(object):
         '''
         Constructor
         '''
-        pass
+        JawsBase.__init__(self)
     
     def new_post(self, title, summary='', content=''):
         '''
@@ -125,9 +179,13 @@ class Blog(object):
         fast_url = title.replace(' ','_')
         database = connect_to_database()
         cursor = database.cursor()
-        cursor.execute('INSERT INTO blog (title, fast_url, text, summary) '
-                'VALUES (%s,%s,%s,%s)', (title, fast_url, content, summary))
-        cursor.commit()
+        createtime = datetime.datetime.now()
+        cursor.execute('INSERT INTO blog (title, fast_url, text, summary, '
+                       'user_id, createtime, publishtime, published) '
+                'VALUES (%s,%s,%s,%s,%s,%s,%s,1 )', (title, fast_url, content, summary,
+                                            self.get_user_id(self.sender),
+                                            createtime, createtime))
+        database.commit()
         cursor.execute("SELECT LAST_INSERT_ID()")
         post_id = cursor.fetchone()[0]
         cursor.close()

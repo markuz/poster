@@ -81,18 +81,12 @@ class Message(object):
     
     def get_images(self):
         return self.image_list
-    
-    def get_user_id(self):
-        '''
-        Return the user_id 
-        '''
-        database = connect_to_database
 
 class mail(object):
     '''
     This class offers a way to get new emails from an IMAP server
     '''
-    def __init__(self, host, username, password):
+    def __init__(self, host, port,  username, password):
         '''
         Constructor
         '''

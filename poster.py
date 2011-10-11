@@ -22,8 +22,10 @@
 # @author    Marco Antonio Islas Cruz <markuz@islascruz.org>
 # @copyright 2011 Marco Antonio Islas Cruz
 # @license   http://www.gnu.org/licenses/gpl.txt
+import os
 from poster_resources.mail import mail
-from poster_resources.settings import mail as conf_mail
+from poster_resources.settings import conf_mail, SITE_URL
+from poster_resources.jaws import Blog, Phoo
 
 class poster(object):
     def __init__(self):
@@ -31,7 +33,7 @@ class poster(object):
         Constructor
         '''
         #Get mails
-        c = mail("%s:%d"%(conf_mail['host'], conf_mail['port']),
+        c = mail(conf_mail['host'], conf_mail['port'],
                  conf_mail['username'],
                  conf_mail['password'])
         for message in c.get_unseen_mail():
@@ -50,12 +52,38 @@ class poster(object):
         Handy method to create a message. Messages are all preformatted
         @param message:
         '''
+        post_txt = ''
         #Save images if there are any..
         imagelist = []
         if message.get_images():
             phoo = Phoo()
-            for image in message.get_images():
-                imagelist.append(phoo.add_image(image))
+            phoo.sender = message.get_from()
+            for filename, image in message.get_images():
+                imagelist.append(phoo.add_image(image, message.get_from(),
+                                                filename))
+        if imagelist:
+            image = imagelist[0]
+            maxwidth = min(800, image.width)
+            post_txt += ('<center><img src="%s/%s" '
+                       'alt="%s" width = %d /></center>\n\n'%(SITE_URL,
+                                                        image.fullpath,
+                                                        image.title,
+                                                        maxwidth))
+        #Process_text.
+        # TODO: Handle youtube links
+        post_txt += "".join(message.get_text())
+        
+        #Add aditional images:
+        if imagelist and len(imagelist) > 1:
+            for image in imagelist[1:]:
+                post_txt += "<img src='%s/%s' alt='%s' />"%(SITE_URL,
+                         os.path.join(image.thumbpath,image.name),
+                                                         image.title)
+                
+        blog = Blog()
+        blog.sender = message.get_from()
+        print blog.new_post(message.get_subject(), post_txt)
+                
             
 
 if __name__ == '__main__':

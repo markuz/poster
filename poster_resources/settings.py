@@ -28,10 +28,14 @@ database = {
             'host': 'localhost',
             'username': 'username',
             'password': 'password',
-            'database': 'database'
+            'database':'database'
             }
 
-mail = {'host':'host',
+conf_mail = {'host':'localhost',
         'username':'username',
         'password':'password',
-        'port':25}
+        'port':26}
+
+
+phoo_path = '/tmp/'
+SITE_URL = 'http://www.somedomain.com/path/'

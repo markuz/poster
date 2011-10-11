@@ -23,6 +23,7 @@
 # @copyright 2011 Marco Antonio Islas Cruz
 # @license   http://www.gnu.org/licenses/gpl.txt
 
+import MySQLdb
 from poster_resources.settings import database
 
 def connect_to_database():
@@ -30,9 +31,9 @@ def connect_to_database():
     Handy function that creates a connection to 
     database, returns connection object
     '''
-    conn = MySQLdb.connect(host = database['localhost'],
-                           username = database['username'],
-                           password = database['password'],
+    conn = MySQLdb.connect(host = database['host'],
+                           user = database['username'],
+                           passwd = database['password'],
                            db = database['database']
                            )
     
