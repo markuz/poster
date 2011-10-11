@@ -66,7 +66,7 @@ class poster(object):
             maxwidth = min(800, image.width)
             post_txt += ('<center><img src="%s/%s" '
                        'alt="%s" width = %d /></center>\n\n'%(SITE_URL,
-                                    os.paht.join(image.partial_path,image.name),
+                                    os.path.join(image.partial_path,image.name),
                                                         image.title,
                                                         maxwidth))
         #Process_text.
