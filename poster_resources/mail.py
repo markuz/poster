@@ -48,9 +48,10 @@ class Message(object):
         if encoding:
             if not isinstance(text, unicode):
                 try:
-                    return text.decode(encoding)
+                    return text.decode(encoding).encode('latin-1')
                 except:
-                    pass
+                    print repr(text)
+                    return text
         return unicode(text)
     
     def get_from(self):
