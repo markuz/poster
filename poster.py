@@ -37,10 +37,6 @@ class poster(object):
                  conf_mail['username'],
                  conf_mail['password'])
         for message in c.get_unseen_mail():
-            print "".center(80,'=')
-            print message.get_from()
-            print message.get_subject()
-            print message.get_text()
             if message.get_subject().lower().startswith("upload:"):
                 #handle upload only
                 pass
