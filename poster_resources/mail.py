@@ -46,7 +46,8 @@ class Message(object):
     def decode_header(self, header):
         text, encoding = decode_header(header)[0]
         if encoding:
-            return text.decode(encoding)
+            if not isinstance(text, unicode):
+                return text.decode(encoding)
         return unicode(text)
     
     def get_from(self):
