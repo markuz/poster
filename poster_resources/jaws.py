@@ -180,6 +180,12 @@ class Blog(JawsBase):
         database = connect_to_database()
         cursor = database.cursor()
         createtime = datetime.datetime.now()
+        if summary.find("[more]"):
+            tmpsummary = summary.split("[more]")
+            content = "".join(tmpsummary)
+            summary  = tmpsummary[0]
+            
+            
         cursor.execute('INSERT INTO blog (title, fast_url, text, summary, '
                        'user_id, createtime, publishtime, published) '
                 'VALUES (%s,%s,%s,%s,%s,%s,%s,1 )', (title, fast_url, content, summary,
