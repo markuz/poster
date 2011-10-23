@@ -180,7 +180,7 @@ class Blog(JawsBase):
         database = connect_to_database()
         cursor = database.cursor()
         createtime = datetime.datetime.now()
-        if summary.find("[more]"):
+        if summary.find("[more]") != -1:
             tmpsummary = summary.split("[more]")
             content = "".join(tmpsummary)
             summary  = tmpsummary[0]
