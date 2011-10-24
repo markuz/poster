@@ -33,7 +33,7 @@ def get_youtube_text(youtube_id, include_more = False):
                  '</center>'%youtube_id)
     return youtubestring
 
-def get_youtube_thumbnail_id(youtube_id):
+def get_youtube_thumbnail_url(youtube_id):
     '''
     Returns the url for the youtube id
     @param youtube_id:
