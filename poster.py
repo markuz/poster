@@ -62,7 +62,7 @@ class poster(object):
         for yid in youtube_ids:
             phoo = Phoo()
             phoo.sender = message.get_from()
-            name, data = get_youtube_thumbnail(youtube_id)
+            name, data = get_youtube_thumbnail(yid)
             imagelist.append(phoo.add_image(data, message.get_from(),
                                                 name))
         if imagelist:
