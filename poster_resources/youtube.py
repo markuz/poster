@@ -17,7 +17,9 @@ def get_youtube_ids(text):
             data = data.replace("[youtube]", '').replace("[/youtube]",'')
             parseresult = urlparse.urlparse(data.strip())
             querys = [k.split("=") for k in parseresult.query.split("&")]
-            params = [k for k in map(lambda x: [None, x[1]][x[0]=='v'], c) if querys]
+            if not querys:
+                continue
+            params = [k for k in map(lambda x: [None, x[1]][x[0]=='v'], querys)]
             if params: 
                 youtube_id.append(params[0])
     return youtube_id
