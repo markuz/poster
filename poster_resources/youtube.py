@@ -12,7 +12,7 @@ def get_youtube_ids(text):
     @param text:
     '''
     youtube_id = []
-    for index, data in enumerate(summary.split("\n")):
+    for index, data in enumerate(text.split("\n")):
         if data.find("[youtube]")!=-1:
             data = data.replace("[youtube]", '').replace("[/youtube]")
             parseresult = urlparse.urlparse(data)
