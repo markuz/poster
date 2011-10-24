@@ -52,6 +52,6 @@ def get_youtube_thumbnail(youtube_id):
     url = get_youtube_thumbnail_url(youtube_id)
     resource = urllib.urlopen(url)
     data  = resource.read()
-    return "0.jpg", data
+    return "%s.jpg"%youtube_id, data
     
         
