@@ -29,6 +29,7 @@ import datetime
 from poster_resources.settings import database, phoo_path
 from poster_resources.database import connect_to_database
 from PIL import Image
+from poster_resources.youtube import *
 
 
 THUMBNAIL_SIZE = 100,100
@@ -181,24 +182,20 @@ class Blog(JawsBase):
         cursor = database.cursor()
         createtime = datetime.datetime.now()
         #Handle youtube links. This is a hack more than good implemented stuff
-        tmplines = []
-        for index, data in enumerate(summary.split("\n")):
-            if data.find("[youtube]")!=-1:
-                data = data.replace("[youtube]", '').replace("[/youtube]")
-                parseresult = urlparse.urlparse(data)
-                querys = [k.split("=") for k in parseresult.query.split("&")]
-                params = [k for k in map(lambda x: [None, x[1]][x[0]=='v'], c) if querys]
-                if params: 
-                    youtube_id = params[0]
-                    youtubestring = ("\n[more]\n"
-                                 '<center>'
-                                 '<iframe width="800" height="437" '
-                                 'src="http://www.youtube.com/embed/%s?hd=1"'
-                                 ' frameborder="0" allowfullscreen></iframe>'
-                                 '</center>'%youtube_id)
-                    data = youtubestring
-            tmplines.append(data)
-        summary = "\n".join(tmplines)
+        youtube_ids = get_youtube_ids(summary)
+        if youtube_ids: 
+            include_more = True
+            splittext = text.split("\n")
+            tmplines  = []
+            for line in splittext:
+                for yid in youtube_ids:
+                    if line.find(yid) != -1: #Bingo, youtube ID!
+                        line = get_youtube_text(yid, include_more)
+                        include_more = False
+                        break
+                tmplines.append(line)
+            summary = "\n".join(tmplines)
+        
         if summary.find("[more]") != -1:
             tmpsummary = summary.split("[more]")
             content = "".join(tmpsummary)

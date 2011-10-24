@@ -26,6 +26,7 @@ import os
 from poster_resources.mail import mail
 from poster_resources.settings import conf_mail, SITE_URL
 from poster_resources.jaws import Blog, Phoo
+from poster_resources.youtube import *
 
 class poster(object):
     def __init__(self):
@@ -57,6 +58,13 @@ class poster(object):
             for filename, image in message.get_images():
                 imagelist.append(phoo.add_image(image, message.get_from(),
                                                 filename))
+        youtube_ids  = get_youtube_ids(text)
+        for yid in youtube_ids:
+            phoo = Phoo()
+            phoo.sender = message.get_from()
+            name, data = get_youtube_thumbnail(youtube_id)
+            imagelist.append(phoo.add_image(data, message.get_from(),
+                                                name))
         if imagelist:
             image = imagelist[0]
             maxwidth = min(800, image.width)
