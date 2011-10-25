@@ -19,7 +19,7 @@ def get_youtube_ids(text):
             querys = [k.split("=") for k in parseresult.query.split("&")]
             if not querys:
                 continue
-            params = [k for k in map(lambda x: [None, x[1]][x[0]=='v'], querys)]
+            params = [k for k in map(lambda x: [None, x[1]][x[0]=='v'], querys) if k]
             if params: 
                 youtube_id.append(params[0])
     return youtube_id
