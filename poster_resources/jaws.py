@@ -188,6 +188,7 @@ class Blog(JawsBase):
             splittext = summary.split("\n")
             tmplines  = []
             for line in splittext:
+                print repr(youtube_ids)
                 for yid in youtube_ids:
                     if line.find(yid) != -1 and line.find(["[youtube]"]) != -1: 
                         #Bingo, youtube ID!
