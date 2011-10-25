@@ -21,7 +21,7 @@ def get_youtube_ids(text):
                 continue
             params = [k for k in map(lambda x: [None, x[1]][x[0]=='v'], querys) if k]
             if params: 
-                youtube_id.extend(params[0])
+                youtube_id.extend(params)
     return [k for k in youtube_id if k]
 
 def get_youtube_text(youtube_id, include_more = False):
