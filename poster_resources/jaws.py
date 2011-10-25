@@ -190,7 +190,7 @@ class Blog(JawsBase):
             for line in splittext:
                 print repr(youtube_ids)
                 for yid in youtube_ids:
-                    if line.find(yid) != -1 and line.find(["[youtube]"]) != -1: 
+                    if line.find(yid) != -1 and line.find("[youtube]") != -1: 
                         #Bingo, youtube ID!
                         line = get_youtube_text(yid, include_more)
                         include_more = False
