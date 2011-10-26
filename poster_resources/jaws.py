@@ -189,7 +189,7 @@ class Blog(JawsBase):
             tmplines  = []
             for line in splittext:
                 for yid in youtube_ids:
-                    if line.find(yid) != -1 and line.find("[youtube]") != -1: 
+                    if line.find(yid) != -1 and line.startswith("[youtube]"): 
                         #Bingo, youtube ID!
                         line = get_youtube_text(yid, include_more)
                         include_more = False
@@ -205,7 +205,7 @@ class Blog(JawsBase):
             
         tmpsummary = ''
         for line in summary.split("\n"):    
-            if line:
+            if line.strip():
                 tmpsummary += " " + line
                 continue
             tmpsummary += "\n\n"
@@ -213,11 +213,13 @@ class Blog(JawsBase):
         
         tmpcontent = ""
         for line in content.split("\n"):    
-            if line:
+            if line.strip():
                 tmpcontent += " " + line
                 continue
             tmpcontent += "\n\n"
         content = tmpcontent
+        print (summary, content)
+        sys.exit()
         cursor.execute('INSERT INTO blog (title, fast_url, text, summary, '
                        'user_id, createtime, publishtime, published) '
                 'VALUES (%s,%s,%s,%s,%s,%s,%s,1 )', (title, fast_url, content, summary,
