@@ -209,7 +209,7 @@ class Blog(JawsBase):
                 tmpsummary += " " + line
                 continue
             tmpsummary += "\n\n"
-        summary = tmpsummary
+        summary = tmpsummary.replace("\r",'')
         
         tmpcontent = ""
         for line in content.split("\n"):    
@@ -217,9 +217,8 @@ class Blog(JawsBase):
                 tmpcontent += " " + line
                 continue
             tmpcontent += "\n\n"
-        content = tmpcontent
+        content = tmpcontent.replace("\r",'')
         print (summary, content)
-        sys.exit()
         cursor.execute('INSERT INTO blog (title, fast_url, text, summary, '
                        'user_id, createtime, publishtime, published) '
                 'VALUES (%s,%s,%s,%s,%s,%s,%s,1 )', (title, fast_url, content, summary,
