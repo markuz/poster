@@ -185,7 +185,7 @@ class Blog(JawsBase):
         youtube_ids = get_youtube_ids(summary)
         if youtube_ids: 
             include_more = True
-            splittext = summary.split("\n")
+            splittext = summary.split("\n\n")
             tmplines  = []
             for line in splittext:
                 for yid in youtube_ids:
@@ -195,7 +195,7 @@ class Blog(JawsBase):
                         include_more = False
                         break
                 tmplines.append(line)
-            summary = "\n".join(tmplines)
+            summary = "\n\n".join(tmplines)
         
         if summary.find("[more]") != -1:
             tmpsummary = summary.split("[more]")
