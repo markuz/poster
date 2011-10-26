@@ -202,7 +202,8 @@ class Blog(JawsBase):
             tmpsummary = summary.split("[more]")
             content = "".join(tmpsummary)
             summary  = tmpsummary[0]
-        tmpsummary
+            
+        tmpsummary = ''
         for line in summary.stpli("\n"):    
             if line:
                 tmpsummary += " "
