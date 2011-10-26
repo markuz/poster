@@ -206,14 +206,15 @@ class Blog(JawsBase):
         tmpsummary = ''
         for line in summary.split("\n"):    
             if line:
-                tmpsummary += " "
+                tmpsummary += " " + line
                 continue
             tmpsummary += "\n\n"
         summary = tmpsummary
+        
         tmpcontent = ""
         for line in content.split("\n"):    
             if line:
-                tmpcontent += " "
+                tmpcontent += " " + line
                 continue
             tmpcontent += "\n\n"
         content = tmpcontent
