@@ -218,12 +218,11 @@ class Blog(JawsBase):
                 continue
             tmpcontent += "\n\n"
         content = tmpcontent.replace("\r",'')
-        print (summary, content)
         cursor.execute('INSERT INTO blog (title, fast_url, text, summary, '
-                       'user_id, createtime, publishtime, published) '
-                'VALUES (%s,%s,%s,%s,%s,%s,%s,1 )', (title, fast_url, content, summary,
-                                            self.get_user_id(self.sender),
-                                            createtime, createtime))
+                       'user_id, createtime, publishtime, updatetime, published) '
+                'VALUES (%s,%s,%s,%s,%s,NOW(),NOW(),NOW(),1 )', (title, 
+                                 fast_url, content, summary, 
+                                 self.get_user_id(self.sender)))
         database.commit()
         cursor.execute("SELECT LAST_INSERT_ID()")
         post_id = cursor.fetchone()[0]
