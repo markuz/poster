@@ -5,6 +5,8 @@ Created on Oct 24, 2011
 '''
 import urllib
 import urlparse
+import json
+
 
 def get_vimeo_ids(text):
     '''
