@@ -27,6 +27,7 @@ from poster_resources.mail import mail
 from poster_resources.settings import conf_mail, SITE_URL
 from poster_resources.jaws import Blog, Phoo
 from poster_resources.youtube import *
+from poster_resources.vimeo import *
 
 class poster(object):
     def __init__(self):
@@ -65,6 +66,14 @@ class poster(object):
             name, data = get_youtube_thumbnail(yid)
             imagelist.append(phoo.add_image(data, message.get_from(),
                                                 name))
+        vimeo_ids  = get_vimeo_ids("".join(message.get_text()))
+        for yid in vimeo_ids:
+            phoo = Phoo()
+            phoo.sender = message.get_from()
+            name, data = get_vimeo_thumbnail(yid)
+            imagelist.append(phoo.add_image(data, message.get_from(),
+                                                name))
+
         if imagelist:
             image = imagelist[0]
             maxwidth = min(800, image.width)
