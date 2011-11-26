@@ -16,7 +16,7 @@ def get_vimeo_ids(text):
         if data.find("[vimeo]")!=-1:
             data = data.replace("[vimeo]", '').replace("[/vimeo]",'')
             #Vimeo url are pretty good :-)
-            split = data.strip().split()
+            split = data.strip().split("/")
             if len(split) != 4:
                 continue
             vimeo_id.append(split[-1])
