@@ -30,6 +30,7 @@ from poster_resources.settings import database, phoo_path
 from poster_resources.database import connect_to_database
 from PIL import Image
 from poster_resources.youtube import *
+from poster_resources.vimeo import *
 
 
 THUMBNAIL_SIZE = 100,100
@@ -170,18 +171,10 @@ class Blog(JawsBase):
         '''
         JawsBase.__init__(self)
     
-    def new_post(self, title, summary='', content=''):
+    def __youtube(self, summary):
         '''
-        Create a new post, returns the post ID
-        @param title: Title of the post
-        @param summary: Summary of the post
-        @param content: content of the post
+        Search for youtube tags and implement the right html code
         '''
-        fast_url = title.replace(' ','_')
-        database = connect_to_database()
-        cursor = database.cursor()
-        createtime = datetime.datetime.now()
-        #Handle youtube links. This is a hack more than good implemented stuff
         youtube_ids = get_youtube_ids(summary)
         if youtube_ids: 
             include_more = True
@@ -196,8 +189,43 @@ class Blog(JawsBase):
                         break
                 tmplines.append(line)
             summary = "\n".join(tmplines)
-            
-        
+        return summary
+
+    def __vimeo(self, summary):
+        '''
+        Search for vimeo tags and implement the right html code
+        '''
+        vimeo_ids = get_vimeo_ids(summary)
+        if vimeo_ids: 
+            include_more = True
+            splittext = summary.split("\n")
+            tmplines  = []
+            for line in splittext:
+                for yid in vimeo_ids:
+                    if line.find(yid) != -1 and line.startswith("[vimeo]"): 
+                        #Bingo, vimeo ID!
+                        line = get_vimeo_text(yid, include_more)
+                        include_more = False
+                        break
+                tmplines.append(line)
+            summary = "\n".join(tmplines)
+        return summary
+
+    
+    def new_post(self, title, summary='', content=''):
+        '''
+        Create a new post, returns the post ID
+        @param title: Title of the post
+        @param summary: Summary of the post
+        @param content: content of the post
+        '''
+        fast_url = title.replace(' ','_')
+        database = connect_to_database()
+        cursor = database.cursor()
+        createtime = datetime.datetime.now()
+        summary = self.__youtube(summary)
+        summary = self.__vimeo(summary)
+                    
         if summary.find("[more]") != -1:
             tmpsummary = summary.split("[more]")
             content = "".join(tmpsummary)
