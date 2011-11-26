@@ -19,7 +19,8 @@ def get_vimeo_ids(text):
             split = data.strip().split()
             if len(split) != 4:
                 continue
-            return split[-1]
+            vimeo_id.append(split[-1])
+    return vimeo_id
 
 def get_vimeo_text(vimeo_id, include_more = False):
     vimeostring = ("\n[more]\n"
