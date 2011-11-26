@@ -83,7 +83,6 @@ class poster(object):
                                                         image.title,
                                                         maxwidth))
         #Process_text.
-        # TODO: Handle youtube links
         post_txt += "".join(message.get_text())
         
         #Add aditional images:

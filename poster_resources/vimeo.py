@@ -46,7 +46,7 @@ def get_vimeo_thumbnail_url(vimeo_id):
     except:
         pass
     url = json.loads(data)[0]['thumbnail_large']
-    return url
+    return url.encode('utf8')
 
 def get_vimeo_thumbnail(vimeo_id):
     '''
