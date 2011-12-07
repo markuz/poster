@@ -73,7 +73,6 @@ class poster(object):
             name, data = get_vimeo_thumbnail(yid)
             imagelist.append(phoo.add_image(data, message.get_from(),
                                                 name))
-
         if imagelist:
             image = imagelist[0]
             maxwidth = min(800, image.width)

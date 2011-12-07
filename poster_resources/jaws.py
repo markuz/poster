@@ -31,6 +31,7 @@ from poster_resources.database import connect_to_database
 from PIL import Image
 from poster_resources.youtube import *
 from poster_resources.vimeo import *
+from poster_resources.flickr import *
 
 
 THUMBNAIL_SIZE = 100,100
@@ -210,7 +211,26 @@ class Blog(JawsBase):
                 tmplines.append(line)
             summary = "\n".join(tmplines)
         return summary
-
+    
+    def __flickr(self, summary):
+        '''
+        Search for flickr tags and implement the right html code
+        '''
+        flickr_ids = get_flickr_ids(summary)
+        if flickr_ids: 
+            include_more = True
+            splittext = summary.split("\n")
+            tmplines  = []
+            for line in splittext:
+                for yid in flickr_ids:
+                    if line.find(yid) != -1 and line.startswith("[flickr]"): 
+                        #Bingo, flickr ID!
+                        line = get_flickr_text(yid, include_more)
+                        include_more = False
+                        break
+                tmplines.append(line)
+            summary = "\n".join(tmplines)
+        return summary
     
     def new_post(self, title, summary='', content=''):
         '''
