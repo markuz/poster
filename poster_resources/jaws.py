@@ -178,15 +178,15 @@ class Blog(JawsBase):
         '''
         youtube_ids = get_youtube_ids(summary)
         if youtube_ids: 
-            include_more = True
+            
             splittext = summary.split("\n")
             tmplines  = []
             for line in splittext:
                 for yid in youtube_ids:
-                    if line.find(yid) != -1 and line.startswith("[youtube]"): 
+                    if line.find(yid) != -1 and line.startswith("[youtube]"):
+                        include_more = line.find('more') 
                         #Bingo, youtube ID!
                         line = get_youtube_text(yid, include_more)
-                        include_more = False
                         break
                 tmplines.append(line)
             summary = "\n".join(tmplines)
@@ -198,15 +198,14 @@ class Blog(JawsBase):
         '''
         vimeo_ids = get_vimeo_ids(summary)
         if vimeo_ids: 
-            include_more = True
             splittext = summary.split("\n")
             tmplines  = []
             for line in splittext:
                 for yid in vimeo_ids:
                     if line.find(yid) != -1 and line.startswith("[vimeo]"): 
+                        include_more = line.find('more')
                         #Bingo, vimeo ID!
                         line = get_vimeo_text(yid, include_more)
-                        include_more = False
                         break
                 tmplines.append(line)
             summary = "\n".join(tmplines)
@@ -218,15 +217,14 @@ class Blog(JawsBase):
         '''
         flickr_ids = get_flickr_ids(summary)
         if flickr_ids: 
-            include_more = True
             splittext = summary.split("\n")
             tmplines  = []
             for line in splittext:
                 for yid in flickr_ids:
-                    if line.find(yid) != -1 and line.startswith("[flickr]"): 
+                    if line.find(yid) != -1 and line.startswith("[flickr]"):
+                        include_more = line.find('more')
                         #Bingo, flickr ID!
                         line = get_flickr_text(yid, include_more)
-                        include_more = False
                         break
                 tmplines.append(line)
             summary = "\n".join(tmplines)
