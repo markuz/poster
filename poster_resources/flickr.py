@@ -7,14 +7,14 @@ import urllib
 import urlparse
 import json
 from poster_resources.settings import flickr_settings
-from poster_resources.third_party import flickr 
+from poster_resources.third_party import flickr as FLICKR
 
 #Set flickr API_KEY
-flickr.API_KEY = flickr_settings["key"]
-flickr.API_SECRET = flickr_settings["secret"]
-flickr.email = flickr_settings["email"]
-flickr.password = flickr_settings["password"]
-flickr.AUTH = False
+FLICKR.API_KEY = flickr_settings["key"]
+FLICKR.API_SECRET = flickr_settings["secret"]
+FLICKR.email = flickr_settings["email"]
+FLICKR.password = flickr_settings["password"]
+FLICKR.AUTH = False
 
 def get_flickr_ids(text):
     '''
@@ -35,7 +35,7 @@ def get_flickr_ids(text):
     return flickr_id
 
 def get_flickr_text(flickr_id, include_more = False):
-    photo = flickr.Photo(flickr_id)
+    photo = FLICKR.Photo(flickr_id)
     flickrstring = ('<center>'
                  '<a href="%s" title="%s"><img src="%s" alt="%s"></a>'
                  '</center>'%(
@@ -47,7 +47,7 @@ def get_flickr_thumbnail_url(flickr_id):
     Returns the url for the flickr id
     @param flickr_id:
     '''
-    photo = flickr.Photo(flickr_id)
+    photo = FLICKR.Photo(flickr_id)
     return photo.getmedium()
 
 def get_flickr_thumbnail(flickr_id):
