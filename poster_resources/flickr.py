@@ -6,7 +6,7 @@ Created on Dec 7, 2011
 import urllib
 import urlparse
 import json
-from poster_resoureces.third_party import flickr 
+from poster_resources.third_party import flickr 
 
 
 def get_flickr_ids(text):
