@@ -245,6 +245,7 @@ class Blog(JawsBase):
         createtime = datetime.datetime.now()
         summary = self.__youtube(summary)
         summary = self.__vimeo(summary)
+        summary = self.__flickr(summary)
                     
         if summary.find("[more]") != -1:
             tmpsummary = summary.split("[more]")
