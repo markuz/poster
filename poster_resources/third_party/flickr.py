@@ -1077,8 +1077,6 @@ def _doget(method, auth=False, **params):
     #print "***** do get %s" % method
 
     params = _prepare_params(params)
-    import pdb
-    pdb.set_trace()
     url = '%s%s/?api_key=%s&method=%s&%s%s'% \
           (HOST, API, API_KEY, method, urlencode(params),
                   _get_auth_url_suffix(method, auth, params))

@@ -184,7 +184,7 @@ class Blog(JawsBase):
             for line in splittext:
                 for yid in youtube_ids:
                     if line.find(yid) != -1 and line.startswith("[youtube]"):
-                        include_more = line.find('more') 
+                        include_more = line.find('more') > -1 
                         #Bingo, youtube ID!
                         line = get_youtube_text(yid, include_more)
                         break
@@ -203,7 +203,7 @@ class Blog(JawsBase):
             for line in splittext:
                 for yid in vimeo_ids:
                     if line.find(yid) != -1 and line.startswith("[vimeo]"): 
-                        include_more = line.find('more')
+                        include_more = line.find('more') > -1
                         #Bingo, vimeo ID!
                         line = get_vimeo_text(yid, include_more)
                         break
@@ -222,7 +222,7 @@ class Blog(JawsBase):
             for line in splittext:
                 for yid in flickr_ids:
                     if line.find(yid) != -1 and line.startswith("[flickr]"):
-                        include_more = line.find('more')
+                        include_more = line.find('more') > -1
                         #Bingo, flickr ID!
                         line = get_flickr_text(yid, include_more)
                         break
