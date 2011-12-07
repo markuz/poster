@@ -29,9 +29,9 @@ def get_flickr_ids(text):
 
 def get_flickr_text(flickr_id, include_more = False):
     photo = flickr.Photo(flickr_id)
-    flickrstring = ("\n[more]\n"
-                 '<center>'
-                 '<a href="%s" title="%s"><img src="%s" alt="%s"></a>'%(
+    flickrstring = ('<center>'
+                 '<a href="%s" title="%s"><img src="%s" alt="%s"></a>'
+                 '</center>'%(
                  photo.url, photo.title, photo.getMedium(), photo.title))
     return flickrstring
 
