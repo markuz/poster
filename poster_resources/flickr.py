@@ -6,8 +6,12 @@ Created on Dec 7, 2011
 import urllib
 import urlparse
 import json
+from poster_resources.settings import flickr_api_key, flickr_api_secret
 from poster_resources.third_party import flickr 
 
+#Set flickr API_KEY
+flickr.API_KEY = flickr_api_key
+flickr.API_SECRET = flickr_api_secret
 
 def get_flickr_ids(text):
     '''

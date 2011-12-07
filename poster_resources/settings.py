@@ -36,6 +36,8 @@ conf_mail = {'host':'localhost',
         'password':'password',
         'port':26}
 
+flickr_api_key = ''
+flickr_api_secret = ''
 
 phoo_path = '/tmp/'
 SITE_URL = 'http://www.somedomain.com/path/'
