@@ -226,8 +226,6 @@ class Blog(JawsBase):
                         #Bingo, flickr ID!
                         line = get_flickr_text(yid, include_more)
                         break
-                if not isinstance(line, unicode):
-                    line = line.encode('utf8')
                 tmplines.append(line)
             print repr(tmplines)
             summary = u"\n".join(tmplines)
