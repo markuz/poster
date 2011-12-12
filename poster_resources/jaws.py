@@ -217,7 +217,7 @@ class Blog(JawsBase):
         '''
         flickr_ids = get_flickr_ids(summary)
         if flickr_ids: 
-            splittext = summary.split("\n")
+            splittext = summary.encode('utf-8').split("\n")
             tmplines  = []
             for line in splittext:
                 for yid in flickr_ids:
