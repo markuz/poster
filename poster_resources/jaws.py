@@ -217,7 +217,7 @@ class Blog(JawsBase):
         '''
         flickr_ids = get_flickr_ids(summary)
         if flickr_ids: 
-            splittext = summary.decode('utf-8').split("\n")
+            splittext = summary.split("\n")
             tmplines  = []
             for line in splittext:
                 for yid in flickr_ids:
@@ -226,9 +226,11 @@ class Blog(JawsBase):
                         #Bingo, flickr ID!
                         line = get_flickr_text(yid, include_more)
                         break
+                if not isinstance(line, unicode):
+                    line = unicode(line,'utf8')
                 tmplines.append(line)
             print repr(tmplines)
-            summary = "\n".join(map(lambda x: x.decode('utf8'), tmplines))
+            summary = "\n".join(tmplines)
         return summary
     
     def new_post(self, title, summary='', content=''):
