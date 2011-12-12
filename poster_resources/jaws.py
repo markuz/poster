@@ -227,7 +227,7 @@ class Blog(JawsBase):
                         line = get_flickr_text(yid, include_more)
                         break
                 if isinstance(line, unicode):
-                    line = line.decode('utf8')
+                    line = str(line)
                 tmplines.append(line)
             print repr(tmplines)
             summary = u"\n".join(tmplines)
