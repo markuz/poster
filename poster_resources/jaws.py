@@ -229,7 +229,6 @@ class Blog(JawsBase):
                 if isinstance(line, unicode):
                     line = str(line)
                 tmplines.append(line)
-            print repr(tmplines)
             summary = "\n".join(tmplines)
         return summary
     
