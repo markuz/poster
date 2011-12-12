@@ -230,7 +230,7 @@ class Blog(JawsBase):
                     line = str(line)
                 tmplines.append(line)
             print repr(tmplines)
-            summary = u"\n".join(tmplines)
+            summary = "\n".join(tmplines)
         return summary
     
     def new_post(self, title, summary='', content=''):
