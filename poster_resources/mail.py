@@ -27,6 +27,7 @@ import imaplib
 import email
 from email.header import decode_header
 from poster_resources.database import connect_to_database
+from poster_resources.options import options
 
 class Message(object):
     # TODO: Create properties
@@ -107,7 +108,11 @@ class mail(object):
         M = imaplib.IMAP4_SSL(self.host)
         M.login(self.username, self.password)
         M.select()
-        typ, data = M.search(None, 'UNSEEN')
+        if options.first_message_only:
+            query_type = 'UNSEEN'
+        else:
+            query_type = 'ALL'
+        typ, data = M.search(None, query_type)
         c = 0
         messages = []
         for num in data[0].split():
@@ -117,6 +122,8 @@ class mail(object):
             message = Message(email.message_from_string(data[0][1]))
             #Create message object
             messages.append(message)
+            if options.first_message_only:
+                break;
         M.close()
         M.logout()
         return messages

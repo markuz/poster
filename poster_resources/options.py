@@ -31,5 +31,11 @@ Created on Dec 14, 2011
 from optparse import OptionParser
 
 parser = OptionParser()
-parser.add_option('-d','--debug', help='Run in debug mode',
-                  type='bool', action='store_true', dest='debug')
+parser.add_option('-d','--debug', help='Run in debug mode', 
+                  action='store_true', dest='debug')
+parser.add_option('-f','--first-message-only',dest='first_message_only',
+                  action='store_true',
+                  help=('Get only the first message (no matter if it is '
+                        'not in unread status), useful for developing'))
+
+options, args = parser.parse_args()
