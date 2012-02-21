@@ -121,8 +121,6 @@ class mail(object):
             message = Message(email.message_from_string(data[0][1]))
             #Create message object
             messages.append(message)
-            if options.first_message_only:
-                break;
         M.close()
         M.logout()
         return messages
