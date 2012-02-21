@@ -89,6 +89,7 @@ class poster(object):
         links = False
         for line in lines:
             lower = line.lower().strip()
+            print lower, lower=="[nothumbs]"
             if lower == "[nothumbs]":
                 nothumbs = True
                 line = ''
