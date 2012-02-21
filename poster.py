@@ -108,10 +108,14 @@ class poster(object):
                 if nothumbs:
                     thumb = ''
                     size = ''
+                    center = ""
+                    center_end = ""
                 else:
                     thumbs = 'thumb'
                     maxwidth = min(800, image.width)
                     size = "width = %d"%maxwidth
+                    center = "<center>"
+                    center_end = "</center>"
                 if links:
                     linkstart = ("<a href='%s/index.php?photos/"
                                  "album/1/photo/%s.html'>")%(SITE_URL,
@@ -124,8 +128,9 @@ class poster(object):
                 src = SITE_URL + '/data/phoo/%s'% '/'.join(
                                         (image.partial_path,thumb,image.name))
                 
-                post_txt += ("%s<img src='%s' alt='%s' %s />%s")%(linkstart,
-                                       src,image.name, size, linkend)
+                post_txt += ("%s%s<img src='%s' alt='%s' %s />%s%s")%(center,
+                              linkstart, src,image.name, size, linkend,
+                              center_end)
                 
         blog = Blog()
         blog.sender = message.get_from()
