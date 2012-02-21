@@ -128,7 +128,7 @@ class poster(object):
                 src = SITE_URL + '/data/phoo/%s'% '/'.join(
                                         (image.partial_path,thumb,image.name))
                 
-                post_txt += ("%s%s<img src='%s' alt='%s' %s />%s%s")%(center,
+                post_txt += ("%s%s<img src='%s' alt='%s' %s />%s%s\n\n")%(center,
                               linkstart, src,image.name, size, linkend,
                               center_end)
                 
