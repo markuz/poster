@@ -83,13 +83,45 @@ class poster(object):
                                                         maxwidth))
         #Process_text.
         post_txt += "".join(message.get_text())
-        
+        lines = post_txt.split("\n")
+        newlines = []
+        nothumbs = False
+        links = False
+        for line in lines:
+            lower = line.lower.strip()
+            if lower == "[nothumbs]":
+                nothumbs = True
+                line = ''
+            elif lower == "[links]":
+                links = True
+                line = ''
+            newlines.append(line)
+        post_txt = "\n".join(newlines)
+                
         #Add aditional images:
         if imagelist and len(imagelist) > 1:
             for image in imagelist[1:]:
-                post_txt += "<img src='%s/data/phoo/%s' alt='%s' />"%(SITE_URL,
-                         '/'.join((image.partial_path,'thumb',image.name)),
-                                                         image.title)
+                if nothumbs:
+                    thumb = ''
+                    maxwidth = ''
+                else:
+                    thumbs = 'thumb'
+                    maxwidth = min(800, image.width)
+                    size = "width = %d"%maxwidth
+                if links:
+                    linkstart = ("<a href='%s/index.php?photos/"
+                                 "album/1/photo/%s.html'>")%(SITE_URL,
+                                                             image.image_id)
+                    linkend = "</a>"
+                else:
+                    linkstart = ''
+                    linkend = ''
+                    
+                src = SITE_URL + '/data/phoo/%s'% '/'.join(
+                                        (image.partial_path,thumb,image.name))
+                
+                post_txt += ("%s<img src='%s' alt='%s' %s />%s")%(linkstart,
+                                       src,image.name,width, linkend)
                 
         blog = Blog()
         blog.sender = message.get_from()

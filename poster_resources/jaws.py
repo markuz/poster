@@ -52,6 +52,7 @@ class JawsImage(object):
         self.user_id = 1
         self.title = ''
         self.description = ''
+        self.image_id = 0
     
     def save(self):
         '''
@@ -78,9 +79,9 @@ class JawsImage(object):
                       self.title, self.description))
         database.commit()
         cursor.execute("SELECT LAST_INSERT_ID()")
-        image_id = cursor.fetchone()[0]
+        self.image_id = cursor.fetchone()[0]
         cursor.execute("INSERT INTO phoo_image_album (phoo_image_id,"
-                     "phoo_album_id) VALUES (%s,%s)",(image_id, 1))
+                     "phoo_album_id) VALUES (%s,%s)",(self.image_id, 1))
         database.commit()
         cursor.close()
         database.close()
