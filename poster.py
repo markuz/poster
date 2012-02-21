@@ -102,6 +102,8 @@ class poster(object):
                 
         #Add aditional images:
         if imagelist and len(imagelist) > 1:
+            if post_txt.find("[more]") == -1 :
+                post_text += "[more]\n"
             for image in imagelist[1:]:
                 if nothumbs:
                     thumb = ''
