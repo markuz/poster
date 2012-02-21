@@ -105,7 +105,7 @@ class poster(object):
             for image in imagelist[1:]:
                 if nothumbs:
                     thumb = ''
-                    maxwidth = ''
+                    size = ''
                 else:
                     thumbs = 'thumb'
                     maxwidth = min(800, image.width)
@@ -123,7 +123,7 @@ class poster(object):
                                         (image.partial_path,thumb,image.name))
                 
                 post_txt += ("%s<img src='%s' alt='%s' %s />%s")%(linkstart,
-                                       src,image.name,width, linkend)
+                                       src,image.name, size, linkend)
                 
         blog = Blog()
         blog.sender = message.get_from()
