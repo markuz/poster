@@ -89,8 +89,6 @@ class poster(object):
         links = False
         for line in lines:
             lower = line.lower().strip()
-            import pdb
-            pdb.set_trace()
             if lower == "[nothumbs]":
                 nothumbs = True
                 line = ''
