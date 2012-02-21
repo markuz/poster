@@ -105,15 +105,17 @@ class poster(object):
             for image in imagelist[1:]:
                 if nothumbs:
                     thumb = ''
-                    size = ''
-                    center = ""
-                    center_end = ""
-                else:
-                    thumbs = 'thumb'
                     maxwidth = min(800, image.width)
                     size = "width = %d"%maxwidth
                     center = "<center>"
                     center_end = "</center>"
+                    
+                else:
+                    thumbs = 'thumb'
+                    size = ''
+                    center = ""
+                    center_end = ""
+                    
                 if links:
                     linkstart = ("<a href='%s/index.php?photos/"
                                  "album/1/photo/%s.html'>")%(SITE_URL,

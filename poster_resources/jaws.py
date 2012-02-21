@@ -268,6 +268,15 @@ class Blog(JawsBase):
                 continue
             tmpcontent += "\n\n"
         content = tmpcontent.replace("\r",'')
+        #Check if there is another title with fast_url"
+        cursor.excute("SELECT 1 FROM blog WHERE fast_url=%s",(fast_url))
+        append = 0
+        while cursor.fetchone():
+            append += 1
+            tmpfasturl = "%s%d"%(fast_url,append)
+            cursor.excute("SELECT 1 FROM blog WHERE fast_url=%s",(tmpfasturl))
+        if append:
+            fast_url = "%s%d"%(fast_url,append)
         cursor.execute('INSERT INTO blog (title, fast_url, text, summary, '
                        'user_id, createtime, publishtime, updatetime, published) '
                 'VALUES (%s,%s,%s,%s,%s,NOW(),NOW(),NOW(),1 )', (title, 
