@@ -89,14 +89,12 @@ class poster(object):
         links = False
         for line in lines:
             lower = line.lower().strip()
-            print lower, lower == "[nothumbs]"
             if lower == "[nothumbs]":
                 nothumbs = True
                 line = ''
             elif lower == "[links]":
                 links = True
                 line = ''
-            print "line:",line
             newlines.append(line)
         post_txt = "\n".join(newlines)
                 
