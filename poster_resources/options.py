@@ -33,9 +33,8 @@ from optparse import OptionParser
 parser = OptionParser()
 parser.add_option('-d','--debug', help='Run in debug mode', 
                   action='store_true', dest='debug')
-parser.add_option('-f','--first-message-only',dest='first_message_only',
+parser.add_option('-a','--all-messages',dest='all_messages',
                   action='store_true',
-                  help=('Get only the first message (no matter if it is '
-                        'not in unread status), useful for developing'))
+                  help=('Get all messages, not only the unseen'))
 
 options, args = parser.parse_args()

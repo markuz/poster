@@ -108,9 +108,8 @@ class mail(object):
         M = imaplib.IMAP4_SSL(self.host)
         M.login(self.username, self.password)
         M.select()
-        if options.first_message_only:
-            query_type = 'UNSEEN'
-        else:
+        query_type = 'UNSEEN'
+        if options.all_messages:
             query_type = 'ALL'
         typ, data = M.search(None, query_type)
         c = 0
