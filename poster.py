@@ -111,7 +111,7 @@ class poster(object):
                     center_end = "</center>"
                     
                 else:
-                    thumbs = 'thumb'
+                    thumb = 'thumb'
                     size = ''
                     center = ""
                     center_end = ""
