@@ -65,7 +65,8 @@ class poster(object):
             phoo.sender = message.get_from()
             name, data = get_youtube_thumbnail(yid)
             if message.get_text().find("[novideoimage]") > -1:
-                imagelist.append(phoo.add_image(data, message.get_from(),
+                continue
+            imagelist.append(phoo.add_image(data, message.get_from(),
                                                 name))
         vimeo_ids  = get_vimeo_ids("".join(message.get_text()))
         for yid in vimeo_ids:
@@ -73,7 +74,8 @@ class poster(object):
             phoo.sender = message.get_from()
             name, data = get_vimeo_thumbnail(yid)
             if message.get_text().find("[novideoimage]") > -1:
-                imagelist.append(phoo.add_image(data, message.get_from(),
+                continue
+            imagelist.append(phoo.add_image(data, message.get_from(),
                                                 name))
         if imagelist:
             image = imagelist[0]
