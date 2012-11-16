@@ -241,7 +241,7 @@ class Blog(JawsBase):
         summary = "\n".join([k for k in lines if not k.startswith("[tags]")])
         for line in lines:
             if line.startswith("[tags]"):
-                tags.append([k.strip() for k in line.replace("[tags]","").split(",")])
+                tags.extend([k.strip() for k in line.replace("[tags]","").split(",")])
                 continue
         return summary, tags
     
