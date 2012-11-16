@@ -256,6 +256,8 @@ class Blog(JawsBase):
         categories = cursor.fetchall()
         for tag in tags:
             #Exists??
+            import pdb
+            pdb.set_trace()
             matches = [k for k in categories if k[1].lower() == tag.lower()]
             if not matches:
                 #Add the new category:
