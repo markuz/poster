@@ -269,6 +269,7 @@ class Blog(JawsBase):
             for match in matches:
                 query = ("INSERT INTO blog_entrycat (entry_id, category_id) "
                         "VALUES (%s,%s)")
+                print (query, post_id, match)
                 cursor.execute(query, (post_id, match))
         database.commit()
         cursor.close()
