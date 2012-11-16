@@ -256,16 +256,14 @@ class Blog(JawsBase):
         categories = cursor.fetchall()
         for tag in tags:
             #Exists??
-            import pdb
-            pdb.set_trace()
             matches = [k for k in categories if k[1].lower() == tag.lower()]
             if not matches:
                 #Add the new category:
                 query = ("INSERT INTO blog_category (name, createtime, updatetime) "
                         "VALUES (%s,NOW(),NOW())"%tag)
-                cursor.query(query)
+                cursor.execute(query)
                 db.commit()
-                cursor.query("SELECT LAST_INSERT_ID()")
+                cursor.execute("SELECT LAST_INSERT_ID()")
                 matches.append(cursor.fetchone()[0])
             #link
             for match in matches:
