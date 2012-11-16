@@ -262,7 +262,7 @@ class Blog(JawsBase):
                 query = ("INSERT INTO blog_category (name, createtime, updatetime) "
                         "VALUES (%s,NOW(),NOW())")
                 cursor.execute(query,(tag,))
-                db.commit()
+                database.commit()
                 cursor.execute("SELECT LAST_INSERT_ID()")
                 matches.append(cursor.fetchone()[0])
             #link
