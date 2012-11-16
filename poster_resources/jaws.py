@@ -257,17 +257,19 @@ class Blog(JawsBase):
         for tag in tags:
             #Exists??
             matches = [k for k in categories if k[1].lower() == tag.lower()]
-            if matches:
-                #link
-                continue
-            #Add the new category:
-            query = ("INSERT INTO blog_category (name, createtime, updatetime) "
-                    "VALUES (%s,NOW(),NOW())"%tag)
-            for idc category in categories:
-                if category.lower() == tag:
-                    links.append(idc)
-                    continue
-
+            if not matches:
+                #Add the new category:
+                query = ("INSERT INTO blog_category (name, createtime, updatetime) "
+                        "VALUES (%s,NOW(),NOW())"%tag)
+                cursor.query(query)
+                db.commit()
+                cursor.query("SELECT LAST_INSERT_ID()")
+                matches.append(cursor.fetchone()[0])
+            #link
+            for match in matches:
+                query = ("INSERT INTO blog_entrycat (entry_id, category_id) "
+                        "VALUES (%s,%s)")
+                cursor.execute(query, (post_id, match))
         database.commit()
         cursor.close()
         database.close()
