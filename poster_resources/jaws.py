@@ -233,6 +233,46 @@ class Blog(JawsBase):
             summary = "\n".join(tmplines)
         return summary
     
+    def __tags(self, summary):
+        '''Check for the tags keyword and returns the summary without 
+        the keywords and a list of tags found'''
+        lines = summary.split("\n")
+        tags = []
+        summary = "\n".join([k for k in lines if not k.startswith("[tags]")])
+        for line in lines:
+            if line.startswith("[tags]"):
+                tags.append([k.strip() for k in line.replace("[tags]").split(",")])
+                continue
+        return summary, tags
+    
+    def link_tags(self, post_id, tags):
+        '''Link the post with a category (we call it here as a tag), if the tag does not
+        exist then it is created, search for tags is performed in lower case'''
+        if not tags:
+            return
+        database = connect_to_database()
+        cursor = database.cursor()
+        cursor.execute("SELECT id, name FROM blog_category")
+        categories = cursor.fetchall()
+        for tag in tags:
+            #Exists??
+            matches = [k for k in categories if k[1].lower() == tag.lower()]
+            if matches:
+                #link
+                continue
+            #Add the new category:
+            query = ("INSERT INTO blog_category (name, createtime, updatetime) "
+                    "VALUES (%s,NOW(),NOW())"%tag)
+            for idc category in categories:
+                if category.lower() == tag:
+                    links.append(idc)
+                    continue
+
+        database.commit()
+        cursor.close()
+        database.close()
+
+    
     def new_post(self, title, summary='', content=''):
         '''
         Create a new post, returns the post ID
@@ -247,6 +287,8 @@ class Blog(JawsBase):
         summary = self.__youtube(summary)
         summary = self.__vimeo(summary)
         summary = self.__flickr(summary)
+        tags = []
+        summary, tags = self.__tags(summary)
                     
         if summary.find("[more]") != -1:
             tmpsummary = summary.split("[more]")
@@ -285,6 +327,7 @@ class Blog(JawsBase):
         database.commit()
         cursor.execute("SELECT LAST_INSERT_ID()")
         post_id = cursor.fetchone()[0]
+        self.link_tags(post_id, tags)
         cursor.close()
         database.close()
         return post_id
