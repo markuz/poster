@@ -260,8 +260,8 @@ class Blog(JawsBase):
             if not matches:
                 #Add the new category:
                 query = ("INSERT INTO blog_category (name, createtime, updatetime) "
-                        "VALUES (%s,NOW(),NOW())"%tag)
-                cursor.execute(query)
+                        "VALUES (%s,NOW(),NOW())")
+                cursor.execute(query,(tag,))
                 db.commit()
                 cursor.execute("SELECT LAST_INSERT_ID()")
                 matches.append(cursor.fetchone()[0])
