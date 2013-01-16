@@ -22,6 +22,7 @@
 # @author    Marco Antonio Islas Cruz <markuz@islascruz.org>
 # @copyright 2011 Marco Antonio Islas Cruz
 # @license   http://www.gnu.org/licenses/gpl.txt
+import sys
 import os
 from poster_resources.mail import mail
 from poster_resources.settings import conf_mail, SITE_URL
