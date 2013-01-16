@@ -50,6 +50,11 @@ class poster(object):
         Handy method to create a message. Messages are all preformatted
         @param message:
         '''
+        blog = Blog()
+        blog.sender = message.get_from()
+        if blog.get_user_id(blog.sender) == -1:
+            print >> sys.stderr, "Can't work with this sender: %s"%repr(blog.sender)
+            return
         post_txt = ''
         #Save images if there are any..
         imagelist = []
@@ -138,8 +143,6 @@ class poster(object):
                               linkstart, src,image.name, size, linkend,
                               center_end)
                 
-        blog = Blog()
-        blog.sender = message.get_from()
         print blog.new_post(message.get_subject(), post_txt)
                 
             

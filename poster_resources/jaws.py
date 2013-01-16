@@ -132,7 +132,7 @@ class JawsBase (object):
         cursor.execute('SELECT id FROM users WHERE email = %s',(sender, ))
         result = cursor.fetchone()
         if not result:
-            return 1
+            return -1
         return int(result[0])
         
 
