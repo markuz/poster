@@ -78,8 +78,8 @@ class FlickrAPI(object):
         '''
         #Create a temporary file to store the image
         sfile, path  = tempfile.mkstemp()
-        sfile.write(data)
-        sfile.close()
+        with open(path, "wb") as ffile:
+            ffile.write(data)
         flickr = flickrapi.FlickrAPI(api_key = flickr_settings["key"],
                 secret = flickr_settings["secret"],
                 username = flickr_settings["email"],
