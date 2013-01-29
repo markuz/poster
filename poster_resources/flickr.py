@@ -89,7 +89,9 @@ class FlickrAPI(object):
         if not token: 
             return 
         flickr.get_token_part_two((token, frob))
-        result = flickr.upload(path, filename, is_public=1, )
+        callback = lambda x, y: x
+        result = flickr.upload(path, filename, is_public=1, 
+                callback = callback)
         print result
         return 
     
