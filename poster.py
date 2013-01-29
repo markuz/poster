@@ -29,6 +29,7 @@ from poster_resources.settings import conf_mail, SITE_URL,IMAGE_HANDLER
 from poster_resources.jaws import Blog, Phoo
 from poster_resources.youtube import *
 from poster_resources.vimeo import *
+from poster_resources.flickr import FlickrAPI
 
 class poster(object):
     def __init__(self):
