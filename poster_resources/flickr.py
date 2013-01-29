@@ -77,7 +77,7 @@ class FlickrAPI(object):
         '''Upload a picture to flickr
         '''
         #Create a temporary file to store the image
-        sfile, path  = tempfile.mkstepm()
+        sfile, path  = tempfile.mkstemp()
         sfile.write(data)
         sfile.close()
         flickr = flickrapi.FlickrAPI(api_key = flickr_settings["key"],
