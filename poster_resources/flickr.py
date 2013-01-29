@@ -8,6 +8,8 @@ import urlparse
 import json
 from poster_resources.settings import flickr_settings
 from poster_resources.third_party import flickr as FLICKR
+import flickrapi
+import tempfile
 
 #Set flickr API_KEY
 FLICKR.API_KEY = flickr_settings["key"]
@@ -68,5 +70,27 @@ def get_flickr_thumbnail(flickr_id):
     resource = urllib.urlopen(url)
     data  = resource.read()
     return name, data
+
+
+class FlickrAPI(object):
+    def add_image(self, data, sender, filename, title='', description=''):
+        '''Upload a picture to flickr
+        '''
+        #Create a temporary file to store the image
+        sfile, path  = tempfile.mkstepm()
+        sfile.write(data)
+        sfile.close()
+        flickr = flickrapi.FlickrAPI(api_key = flickr_settings["key"],
+                secret = flickr_settings["secret"],
+                username = flickr_settings["email"],
+                )
+        flickr.password = flickr_settings["password"]
+        (token, frob) = flickr.get_token_part_one(perms='write')
+        if not token: 
+            return 
+        flickr.get_token_part_two((token, frob))
+        result = flickr.upload(path, filename, is_public=1, )
+        print result
+        return 
     
         
