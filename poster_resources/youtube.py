@@ -27,11 +27,11 @@ def get_youtube_ids(text):
 def get_youtube_text(youtube_id, include_more = False):
     more = ['','\n[more]\n'][include_more]
     youtubestring = ("%s"
-                 '<center>'
+                 '<div class="video-contenedor">'
                  '<iframe width="800" height="437" '
                  'src="http://www.youtube.com/embed/%s?hd=1"'
                  ' frameborder="0" allowfullscreen></iframe>'
-                 '</center>'%(more, youtube_id))
+                 '</div>'%(more, youtube_id))
     return youtubestring
 
 def get_youtube_thumbnail_url(youtube_id):
