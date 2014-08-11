@@ -26,14 +26,14 @@
 #We must read this from a .ini file
 database = {
             'host': 'localhost',
-            'username': 'markuzmx_launo',
-            'password': '0+CAsfL_]e?[',
-            'database':'markuzmx_launo'
+            'username': '',
+            'password': '',
+            'database':''
             }
 
-conf_mail = {'host':'mail.la-uno.com',
-        'username':'blog',
-        'password':'tM8866t3g7232ci',
+conf_mail = {'host':'',
+        'username':'',
+        'password':'',
         'port':26}
 
 flickr_settings = {'key':'fed2a1141b27059d70ad7135c9fa1bef',
@@ -42,5 +42,5 @@ flickr_settings = {'key':'fed2a1141b27059d70ad7135c9fa1bef',
                                                                     'password':''
                                                                                         }
 
-phoo_path = '/var/www/la-uno.com/html/data/phoo/'
-SITE_URL = 'http://www.la-uno.com/html/'
+phoo_path = ''
+SITE_URL = ''
