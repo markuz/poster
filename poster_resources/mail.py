@@ -83,7 +83,7 @@ class Message(object):
                 self.image_list.append((filename, payload))
                 
     def get_text(self):
-        return ("\n".join(self.text_list)).decode("utf8")
+        return "\n".join(self.text_list).decode("utf-8")
     
     def get_images(self):
         return self.image_list
