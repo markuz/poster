@@ -97,8 +97,13 @@ class poster(object):
         newlines = []
         nothumbs = False
         links = False
+        continuos_empty = 0
         for line in lines:
             if not line: 
+                continuous_empty += 1
+            else:
+                continuous_empty = 0
+            if continuous_empty > 1:
                 continue
             lower = line.lower().strip()
             if lower == "[nothumbs]":
