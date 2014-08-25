@@ -115,7 +115,7 @@ class poster(object):
                 links = True
                 line = ''
             newlines.append(line)
-        post_txt = "\n\n".join(newlines)
+        post_txt = "\n".join(newlines)
                 
         #Add aditional images:
         if imagelist and len(imagelist) > 1:
