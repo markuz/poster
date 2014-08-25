@@ -303,21 +303,21 @@ class Blog(JawsBase):
             content = "".join(tmpsummary)
             summary  = tmpsummary[0]
             
-        tmpsummary = ''
-        for line in summary.split("\n"):    
-            if line.strip():
-                tmpsummary += " " + line
-                continue
-            tmpsummary += "\n\n"
-        summary = tmpsummary.replace("\r",'')
-        
-        tmpcontent = ""
-        for line in content.split("\n"):    
-            if line.strip():
-                tmpcontent += " " + line
-                continue
-            tmpcontent += "\n\n"
-        content = tmpcontent.replace("\r",'')
+########tmpsummary = ''
+########for line in summary.split("\n"):    
+########    if line.strip():
+########        tmpsummary += " " + line
+########        continue
+########    tmpsummary += "\n\n"
+########summary = tmpsummary.replace("\r",'')
+########
+########tmpcontent = ""
+########for line in content.split("\n"):    
+########    if line.strip():
+########        tmpcontent += " " + line
+########        continue
+########    tmpcontent += "\n\n"
+########content = tmpcontent.replace("\r",'')
         #Check if there is another title with fast_url"
         cursor.execute("SELECT 1 FROM blog WHERE fast_url=%s",(fast_url))
         append = 0
