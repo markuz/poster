@@ -25,11 +25,10 @@
 import sys
 import os
 from poster_resources.mail import mail
-from poster_resources.settings import conf_mail, SITE_URL,IMAGE_HANDLER
+from poster_resources.settings import conf_mail, SITE_URL
 from poster_resources.jaws import Blog, Phoo
 from poster_resources.youtube import *
 from poster_resources.vimeo import *
-from poster_resources.flickr import FlickrAPI
 
 class poster(object):
     def __init__(self):
@@ -61,13 +60,10 @@ class poster(object):
         #Save images if there are any..
         imagelist = []
         if message.get_images():
-            if IMAGE_HANDLER == 'phoo':
-                handler = Phoo()
-                handler.sender = message.get_from()
-            else:
-                handler = FlickrAPI()
+            phoo = Phoo()
+            phoo.sender = message.get_from()
             for filename, image in message.get_images():
-                imagelist.append(handler.add_image(image, message.get_from(),
+                imagelist.append(phoo.add_image(image, message.get_from(),
                                                 filename))
         youtube_ids  = get_youtube_ids("".join(message.get_text()))
         for yid in youtube_ids:
@@ -89,11 +85,8 @@ class poster(object):
                                                 name))
         if imagelist:
             image = imagelist[0]
-            if isinstance(image, basestring):
-                post_txt += image
-            else:
-                maxwidth = min(800, image.width)
-                post_txt += ('<center><img src="%s/data/phoo/%s" '
+            maxwidth = min(800, image.width)
+            post_txt += ('<center><img src="%s/data/phoo/%s" '
                        'alt="%s" width = %d /></center>\n\n'%(SITE_URL,
                                     '/'.join((image.partial_path,image.name)),
                                                         image.title,
@@ -121,12 +114,9 @@ class poster(object):
                 
         #Add aditional images:
         if imagelist and len(imagelist) > 1:
-            if post_txt.find("[more]") == -1:
+            if post_txt.find("[more]") == -1 :
                 post_txt += "[more]\n"
             for image in imagelist[1:]:
-                if isinstance(image, basestring):
-                    post_txt +=  image
-                    continue
                 if nothumbs:
                     thumb = ''
                     maxwidth = min(800, image.width)

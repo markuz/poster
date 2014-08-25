@@ -27,11 +27,12 @@ def get_vimeo_ids(text):
 def get_vimeo_text(vimeo_id, include_more = False):
     more = ['','\n[more]\n'][include_more]
     vimeostring = ("%s"
-                 '<center>'
+                 '<div class="video-contenedor">'
                  '<iframe src="http://player.vimeo.com/video/%s?title=0'
                  '&amp;byline=0&amp;portrait=0" width="800" height="450" '
                  'frameborder="0" webkitAllowFullScreen mozallowfullscreen '
-                 'allowFullScreen></iframe>'%(more, vimeo_id))
+                 'allowFullScreen></iframe>'
+                 '</div>'%(more, vimeo_id))
     return vimeostring
 
 def get_vimeo_thumbnail_url(vimeo_id):

@@ -26,21 +26,21 @@
 #We must read this from a .ini file
 database = {
             'host': 'localhost',
-            'username': 'username',
-            'password': 'password',
-            'database':'database'
+            'username': '',
+            'password': '',
+            'database':''
             }
 
-conf_mail = {'host':'localhost',
-        'username':'username',
-        'password':'password',
+conf_mail = {'host':'',
+        'username':'',
+        'password':'',
         'port':26}
 
-flickr_settings = {'key':'',
-                   'secret':'',
-                   'email':'',
-                   'password':''
-                   }
+flickr_settings = {'key':'fed2a1141b27059d70ad7135c9fa1bef',
+                            'secret':'4b8f7f34cd1b6cd8',
+                                                'email':'',
+                                                                    'password':''
+                                                                                        }
 
-phoo_path = '/tmp/'
-SITE_URL = 'http://www.somedomain.com/path/'
+phoo_path = ''
+SITE_URL = ''

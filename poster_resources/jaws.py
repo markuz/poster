@@ -36,6 +36,7 @@ from poster_resources.flickr import *
 
 THUMBNAIL_SIZE = 100,100
 MEDIUM_SIZE = 300,300
+ALLOWEDCHARS = "abcdefghijklmnopqrstuvwxyz0123456789"
 
 class JawsImage(object):
     '''
@@ -282,7 +283,12 @@ class Blog(JawsBase):
         @param summary: Summary of the post
         @param content: content of the post
         '''
-        fast_url = title.replace(' ','_')
+        fast_url = ""
+        for char in title:
+            if char not in ALLOWEDCHARS and char not in ALLOWEDCHARS.upper():
+                char = "_"
+            fast_url += char
+        fast_url = fast_url.decode("utf8")
         database = connect_to_database()
         cursor = database.cursor()
         createtime = datetime.datetime.now()
@@ -324,7 +330,9 @@ class Blog(JawsBase):
         cursor.execute('INSERT INTO blog (title, fast_url, text, summary, '
                        'user_id, createtime, publishtime, updatetime, published) '
                 'VALUES (%s,%s,%s,%s,%s,NOW(),NOW(),NOW(),1 )', (title, 
-                                 fast_url, content, summary, 
+                                 fast_url, 
+                                 content.encode("latin1",errors="ignore"), 
+                                 summary.encode("latin1",errors="ignore"), 
                                  self.get_user_id(self.sender)))
         database.commit()
         cursor.execute("SELECT LAST_INSERT_ID()")
