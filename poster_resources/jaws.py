@@ -257,7 +257,9 @@ class Blog(JawsBase):
         categories = cursor.fetchall()
         for tag in tags:
             #Exists??
-            matches = [k[0] for k in categories if unicode(k[1].lower(),"utf8") == unicode(tag.lower(),"utf8")]
+            if not isinstance(tag, unicode):
+                tag = unicode(tag, "utf8")
+            matches = [k[0] for k in categories if k[1].lower() == tag]
             if not matches:
                 #Add the new category:
                 query = ("INSERT INTO blog_category (name, createtime, updatetime) "
