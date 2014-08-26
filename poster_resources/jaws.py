@@ -105,7 +105,6 @@ class JawsImage(object):
                  os.makedirs(path)
         #We save the normal image, no modifications need to be made
         fname = os.path.join(self.fullpath, filename)
-        print "fname:", fname
         fobj = open(fname, 'wb')
         fobj.write(data)
         fobj.close()
