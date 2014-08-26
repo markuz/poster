@@ -36,11 +36,11 @@ conf_mail = {'host':'',
         'password':'',
         'port':26}
 
-flickr_settings = {'key':'fed2a1141b27059d70ad7135c9fa1bef',
-                            'secret':'4b8f7f34cd1b6cd8',
-                                                'email':'',
-                                                                    'password':''
-                                                                                        }
+flickr_settings = {'key':'',
+                'secret':'',
+                'email':'',
+                'password':''
+                }
 
 phoo_path = ''
 SITE_URL = ''
