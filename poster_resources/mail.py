@@ -65,7 +65,11 @@ class Message(object):
         '''
         Return the subject of the message
         '''
-        return self.decode_header(self.message['subject'])
+        result = decode_header(self.message["subject"]]
+        if result[1] == None:
+            return " ".join(map(self.decode_header,self.message["subject"].split())
+        else:
+            return self.decode_header(self.message["subject"])
     
     def walk(self):
         '''
