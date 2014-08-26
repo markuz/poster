@@ -259,7 +259,12 @@ class Blog(JawsBase):
             #Exists??
             if not isinstance(tag, unicode):
                 tag = unicode(tag, "utf8")
-            matches = [k[0] for k in categories if k[1].lower() == tag]
+            import pdb
+            pdb.set_trace()
+            matches = []
+            for k in categories:
+                if k[1].lower() == tag:
+                    matches.append(k[0])
             if not matches:
                 #Add the new category:
                 query = ("INSERT INTO blog_category (name, createtime, updatetime) "
