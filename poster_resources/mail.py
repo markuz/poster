@@ -23,11 +23,16 @@
 # @copyright 2011 Marco Antonio Islas Cruz
 # @license   http://www.gnu.org/licenses/gpl.txt
 
+import re
 import imaplib
 import email
 from email.header import decode_header
 from poster_resources.database import connect_to_database
 from poster_resources.options import options
+
+
+
+pattern_ecre = re.compile(r'((=\?.*?\?[qb]\?).*\?=)', re.VERBOSE | re.IGNORECASE | re.MULTILINE)
 
 class Message(object):
     # TODO: Create properties
@@ -45,32 +50,35 @@ class Message(object):
         self.walk()
     
     def decode_header(self, header):
-        text, encoding = decode_header(header)[0]
-        if encoding:
-            if not isinstance(text, unicode):
-                try:
-                    return text.decode(encoding).encode('latin-1')
-                except:
-                    print repr(text)
-                    return text
-        return unicode(text)
+        headers = decode_header(header)
+        header = []
+        for text,encoding in headers:
+            text = text.decode(encoding or 'ascii')
+            header.append(text)
+        return " ".join(header)
     
     def get_from(self):
         '''
         Return the from header
         '''
         return self.decode_header(self.message['from'])
+
+
+    def decodeSafely(self, x):
+        match = pattern_ecre.search(x)
+        if not match:
+            return x
+        string, encoding = match.groups()
+        stringBefore, string, stringAfter = x.partition(string)
+        return self.decode_header(" ".join((stringBefore, string, stringAfter)))
     
     def get_subject(self):
         '''
         Return the subject of the message
         '''
-        result = decode_header(self.message["subject"]]
-        if result[1] == None:
-            return " ".join(map(self.decode_header,self.message["subject"].split())
-        else:
-            return self.decode_header(self.message["subject"])
-    
+        result1 = self.decodeSafely(self.message["subject"])
+        return result1
+            
     def walk(self):
         '''
         Return the text of the message
